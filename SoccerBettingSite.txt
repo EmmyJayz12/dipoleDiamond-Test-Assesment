@@ -1,0 +1,44 @@
+<?php
+
+function getPrizeWon($result, $bet){
+if(count($bet) < count($result)){
+return  "You lost the bet";
+}
+
+$betSplit = array();
+$resultSplit = array();
+$countValidScores = 0;
+$countValidMatchWinners = 0;
+
+for($i = 0; $i<count($result);$i++){
+     $betSplit = explode("-",$bet[$i]);
+	 $resultSplit = explode("-",$result[$i]);
+	 if(($betSplit[0] == $resultSplit[0]) && ($betSplit[1] == $resultSplit[1])){
+	      $countValidScores++;
+	 }
+	 
+	  $res1 = $betSplit[0] - $betSplit[1];
+	  $res2 = $resultSplit[0] - $resultSplit[1];
+      if(($res1 > 0 && $res2 > 0) || ($res1 == 0 && $res2 == 0) || ($res1 < 0 && $res2 < 0)){
+        $countValidMatchWinners++;
+	  }		 	 
+}
+
+if($countValidScores == count($result)){
+return "You won the Jackpot";
+}
+
+if($countValidMatchWinners == count($result)){
+return "You won a Consolation Prize";
+}
+
+return "You lost the bet";
+}
+
+$result = array("2-2","2-0","0-1","3-3","2-1");
+$bet = array("2-2","2-1","4-1","0-1","4-4");
+
+echo getPrizeWon($bet, $result);
+
+
+?>
